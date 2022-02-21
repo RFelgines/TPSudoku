@@ -7,7 +7,6 @@ class box:
     def empty(self):
         self.number = None
 
-
     def setNumber(self, number):
         self.number = number
 

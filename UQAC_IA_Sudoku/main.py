@@ -11,3 +11,8 @@ def printGrid():
             if not j % 3:
                 print("|")
         print('\n')
+
+def readSudokuFile():
+    with open("Sudoku.txt") as SudokuFile:
+        Sudoku = SudokuFile.read()
+        environment.env.setGrid(Sudoku)
