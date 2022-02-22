@@ -16,31 +16,64 @@ class grid:
     def setGrid(self, grid):
         self.grid = grid
 
-    def checkColumn(self, column):
-        availableNumbers = [1,2,3,4,5,6,7,8,9]
-        for i in range(9):
-            if availableNumbers[grid[column][i] - 1] != 0:  #tkt ça marche frero
-                availableNumbers[grid[column][i] - 1] = 0
-            else:
-                return False # Element already modified
-        return True
+    def unique(list):
+        unique_list = []
+        for x in list:
+            if x not in unique_list:
+                unique_list.append(x)
 
-    def checkRow(self, row):
+    def availableNumbers(self, *pos): #Checks what numbers can be placed at a certain position
         availableNumbers = [1,2,3,4,5,6,7,8,9]
-        for i in range(9):
-            if availableNumbers[grid[i][row] - 1] != 0:  #tkt ça marche frero
-                availableNumbers[grid[i][row] - 1] = 0
-            else:
-                return False # Element already modified
-        return True
+        x,y = pos
+        column = []
+        row = []
+        subgrid = []
 
-    def checkSubgrid(self, SubgridRowNumber, SubgridColumnNumber):
-        availableNumbers = [1,2,3,4,5,6,7,8,9]
+        for i in range(9):
+            if grid[i][y] != 0: #There is a number
+                row.append(grid[i][y])
+
+        for i in range(9):
+            if grid[x][i] != 0:
+                column.append(grid[i][y])
+
+        xSubgrid = (x // 3)*3
+        ySubgrid = (y // 3)*3
         for i in range(3):
-            for j in range 3:
-                if availableNumbers[grid[i + 3*SubgridColumnNumber][j +3*SubgridRowNumber] - 1] != 0:  #tkt ça marche frero
-                    availableNumbers[grid[i + 3*SubgridColumnNumber][j +3*SubgridRowNumber] - 1] = 0
-                else:
-                    return False # Element already modified
+            for j in range(3):
+                if grid[i + xSubgrid][j +ySubgrid] != 0:
+                    row.append(grid[i + xSubgrid][j +ySubgrid])
+
+        unusableNumbers = set(column+row+subgrid) # Numbers that you can't use
+        templist = unusableNumbers+availableNumbers
+        availableNumbers = self.unique(templist)
+        return availableNumbers
+
+
+    def checkPlacement(self, *pos,number): #Check if placement is correct
+        x,y = pos
+        if grid[x][y] != 0: # There is already a number at this position
+            return False
+        for i in range(9):
+            if grid[i][y] == number:
+                return False
+        for i in range(9):
+            if grid[x][i] == number:
+                return False
+
+        xSubgrid = (x // 3)*3
+        ySubgrid = (y // 3)*3
+        for i in range(3):
+            for j in range(3):
+                if grid[i + xSubgrid][j +ySubgrid]==number:
+                    return False
         return True
 
+    def placeElement(self,*pos, number):
+        if self.checkPlacement(pos, number):
+            x,y = pos
+            grid[x][y] = number
+            return True
+
+        else:
+            return False

@@ -16,3 +16,4 @@ def readSudokuFile():
     with open("Sudoku.txt") as SudokuFile:
         Sudoku = SudokuFile.read()
         environment.env.setGrid(Sudoku)
+
