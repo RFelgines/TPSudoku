@@ -2,7 +2,7 @@ import logging
 
 import environment.env
 from environment.box import box
-
+import numpy
 
 class grid:
     grid = None
@@ -49,6 +49,29 @@ class grid:
         availableNumbers = self.unique(templist)
         return availableNumbers
 
+    def LCR(self):
+        ConstraintsValue = numpy.zeros(9,9)
+        LCR = 0
+        posLCR = 0,0
+        for i in range(9):
+            for j in range(9):
+                ConstraintsValue[i][j] = len(self.availableNumbers(i , j))
+                if ConstraintsValue[i][j] >= LCR:
+                    posLCR = ConstraintsValue[i][j]
+        return posLCR
+
+    def MRV(self): #TODO
+        ConstraintsValue = numpy.zeros(9,9)
+        LCR = 0
+        posLCR = 0,0
+        for i in range(9):
+            for j in range(9):
+                ConstraintsValue[i][j] = len(self.availableNumbers(i , j))
+                if ConstraintsValue[i][j] >= LCR:
+                    posLCR = ConstraintsValue[i][j]
+        return posLCR
+
+
 
     def checkPlacement(self, *pos,number): #Check if placement is correct
         x,y = pos
@@ -70,7 +93,7 @@ class grid:
         return True
 
     def placeElement(self,*pos, number):
-        if self.checkPlacement(pos, number):
+        if self.checkPlacement(pos, number): # Optional if we ensure the placement is correct beforehand, may remove after testing
             x,y = pos
             grid[x][y] = number
             return True

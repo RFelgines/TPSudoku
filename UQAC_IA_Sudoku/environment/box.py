@@ -1,9 +1,6 @@
 class box:
     number = None
 
-
-
-
     def empty(self):
         self.number = None
 
