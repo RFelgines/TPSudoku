@@ -1,19 +1,29 @@
-import environment as environment
+import environment.env as env
 
-if __name__ == "__main__":
-    grid = environment.env.getGrid()
 
 def printGrid():
+    print('----------------------------------------------------')
     for i in range(9):
+        print("|", end=' ')
         for j in range(9):
-            print(grid[i][j])
-            print(' ')
-            if not j % 3:
-                print("|")
-        print('\n')
+            print(grid[i][j].number, end=' ')
+            if (j+1) % 3 == 0:
+                print("|", end=' ')
+        if (i+1) % 3 == 0:
+            print()
+            print('----------------------------------------------------')
+        else:
+            print()
+
 
 def readSudokuFile():
     with open("Sudoku.txt") as SudokuFile:
         Sudoku = SudokuFile.read()
-        environment.env.setGrid(Sudoku)
+        grid.grid.setGrid(SudokuFile)
 
+
+if __name__ == "__main__":
+
+    environment = env.env()
+    grid = environment.getGrid()
+    printGrid()
