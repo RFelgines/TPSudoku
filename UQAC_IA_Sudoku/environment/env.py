@@ -1,4 +1,3 @@
-import logging
 import numpy
 
 from UQAC_IA_Sudoku.environment.box import box

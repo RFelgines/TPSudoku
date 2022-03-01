@@ -2,7 +2,7 @@ import environment.env as env
 
 
 def printGrid():
-    print('----------------------------------------------------')
+    print('-------------------------')
     for i in range(9):
         print("|", end=' ')
         for j in range(9):
@@ -11,7 +11,7 @@ def printGrid():
                 print("|", end=' ')
         if (i+1) % 3 == 0:
             print()
-            print('----------------------------------------------------')
+            print('-------------------------')
         else:
             print()
 

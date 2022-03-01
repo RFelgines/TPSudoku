@@ -5,6 +5,8 @@ class box:
         for key, value in kwargs.items():
             if key == 'value':
                 self.number = int(value)
+        if self.number is None:
+            self.number = 'X'
 
     def empty(self):
         self.number = None
