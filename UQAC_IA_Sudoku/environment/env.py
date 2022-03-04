@@ -1,3 +1,4 @@
+import math
 import numpy
 
 from UQAC_IA_Sudoku.environment.box import box
@@ -12,42 +13,28 @@ class env:
     def getGrid(self):
         return self.grid
 
-    def setGrid(self, grid):
-        self.grid = grid
+    def getRow(self, pos):  # Return the row concerned by the pos
+        return [self.grid[pos[0]][i].getNumber() for i in range(9)]
 
-    def unique(list):
-        unique_list = []
-        for x in list:
-            if x not in unique_list:
-                unique_list.append(x)
+    def getColumn(self, pos):  # Return the column concerned by the pos
+        return [self.grid[i][pos[1]].getNumber() for i in range(9)]
 
-    def availableNumbers(self, *pos):  # Checks what numbers can be placed at a certain position
-        availableNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9]
-        x, y = pos
-        column = []
-        row = []
-        subgrid = []
+    def closestMiddle(self, pos):  # Return the middle of the closest square from the pos
+        middles = [(1, 1), (1, 4), (1, 7), (4, 1), (4, 4), (4, 7), (7, 1), (7, 4), (7, 7)]
+        dist = [math.dist(elem, pos) for elem in middles]
+        return middles[dist.index(min(dist))]
 
-        for i in range(9):
-            if self.grid[i][y] != 0:  # There is a number
-                row.append(self.grid[i][y])
+    def getSquare(self, pos):  # Return the square concerned by the pos
+        closest = self.closestMiddle(pos)
+        ret = [[self.grid[i][j].getNumber() for i in range(closest[0] - 1, closest[0] + 2)]
+               for j in range(closest[1] - 1, closest[1] + 2)]
+        return ret[0] + ret[1] + ret[2]
 
-        for i in range(9):
-            if self.grid[x][i] != 0:
-                column.append(self.grid[i][y])
+    def availableNumbers(self, pos):  # Checks what numbers can be placed at a certain position
+        return [i for i in range(9) if
+                i not in self.getRow(pos) and i not in self.getColumn(pos) and i not in self.getSquare(pos)]
 
-        xSubgrid = (x // 3) * 3
-        ySubgrid = (y // 3) * 3
-        for i in range(3):
-            for j in range(3):
-                if self.grid[i + xSubgrid][j + ySubgrid] != 0:
-                    row.append(self.grid[i + xSubgrid][j + ySubgrid])
-
-        unusableNumbers = set(column + row + subgrid)  # Numbers that you can't use
-        templist = unusableNumbers + availableNumbers
-        availableNumbers = self.unique(templist)
-        return availableNumbers
-
+    """
     def LCR(self):
         ConstraintsValue = numpy.zeros(9, 9)
         LCR = 0
@@ -59,7 +46,7 @@ class env:
                     posLCR = ConstraintsValue[i][j]
         return posLCR
 
-    def MRV(self):  # TODO
+    def MRV(self):
         ConstraintsValue = numpy.zeros(9, 9)
         LCR = 0
         posLCR = 0, 0
@@ -69,32 +56,19 @@ class env:
                 if ConstraintsValue[i][j] >= LCR:
                     posLCR = ConstraintsValue[i][j]
         return posLCR
+    """
 
-    def checkPlacement(self, *pos, number):  # Check if placement is correct
-        x, y = pos
-        if self.grid[x][y] != 0:  # There is already a number at this position
-            return False
-        for i in range(9):
-            if self.grid[i][y] == number:
-                return False
-        for i in range(9):
-            if self.grid[x][i] == number:
-                return False
+    def checkPlacement(self, pos, number):  # Check if placement is correct
+        return number not in self.getRow(pos) and number not in self.getColumn(pos) \
+               and number not in self.getSquare(pos)
+        # True = Number can be placed here
+        # False = Number cannot be placed here
 
-        xSubgrid = (x // 3) * 3
-        ySubgrid = (y // 3) * 3
-        for i in range(3):
-            for j in range(3):
-                if self.grid[i + xSubgrid][j + ySubgrid] == number:
-                    return False
-        return True
-
-    def placeElement(self, *pos, number):
-        if self.checkPlacement(pos,
-                               number):  # Optional if we ensure the placement is correct beforehand, may remove after testing
-            x, y = pos
-            self.grid[x][y] = number
+    def placeElement(self, pos, number):  # Place number at the pos if possible
+        if self.checkPlacement(pos, number):
+            self.grid[pos[0]][pos[1]].setNumber(number)
             return True
-
         else:
             return False
+        # True = Placement success
+        # False = Placement failure

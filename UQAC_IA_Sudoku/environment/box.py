@@ -6,7 +6,7 @@ class box:
             if key == 'value':
                 self.number = int(value)
         if self.number is None:
-            self.number = 'X'
+            self.number = '0'
 
     def empty(self):
         self.number = None
