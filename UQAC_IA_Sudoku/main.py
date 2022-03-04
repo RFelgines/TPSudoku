@@ -2,16 +2,19 @@ import environment.env as env
 
 
 def printGrid(grid):
-    print('-------------------------')
+    print('╔═══════╦═══════╦═══════╗')
     for i in range(9):
-        print("|", end=' ')
+        print("║", end=' ')
         for j in range(9):
             print(grid[i][j].getNumber(), end=' ')
             if (j + 1) % 3 == 0:
-                print("|", end=' ')
+                print("║", end=' ')
         if (i + 1) % 3 == 0:
             print()
-            print('-------------------------')
+            if (i+1) in [3, 6]:
+                print('╠═══════╬═══════╬═══════╣')
+            else:
+                print('╚═══════╩═══════╩═══════╝')
         else:
             print()
 
