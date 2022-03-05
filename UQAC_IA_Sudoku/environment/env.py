@@ -1,5 +1,6 @@
 import math
 from random import sample
+import random
 
 from UQAC_IA_Sudoku.environment.box import box
 
@@ -38,9 +39,11 @@ class env:
 
     def generateSudoku(self):
         rBase = range(self.base)
-        rows = [g*self.base + r for g in self.generateSudoku_shuffle(rBase) for r in self.generateSudoku_shuffle(rBase)]
-        cols = [g*self.base + c for g in self.generateSudoku_shuffle(rBase) for c in self.generateSudoku_shuffle(rBase)]
-        nums = self.generateSudoku_shuffle(range(1, self.base*self.base+1))
+        rows = [g * self.base + r for g in self.generateSudoku_shuffle(rBase) for r in
+                self.generateSudoku_shuffle(rBase)]
+        cols = [g * self.base + c for g in self.generateSudoku_shuffle(rBase) for c in
+                self.generateSudoku_shuffle(rBase)]
+        nums = self.generateSudoku_shuffle(range(1, self.base * self.base + 1))
 
         board = [[nums[self.generateSudoku_patern(r, c)] for c in cols] for r in rows]
 
@@ -48,8 +51,33 @@ class env:
             for j in range(9):
                 self.grid[i][j].setNumber(board[i][j])
 
+    def putZeros(self, difficulty):
+        zeros = 0
+        if difficulty == 0:
+            zeros = 20
+        elif difficulty == 1:
+            zeros = 30
+        elif difficulty == 2:
+            zeros = 40
+        elif difficulty == 3:
+            zeros = 50
+        elif difficulty == 4:
+            zeros = 64
+        for loop in range(zeros):
+            placed = False
+            while not placed:
+                for i in range(9):
+                    for j in range(9):
+                        if self.grid[i][j].getNumber() != 0:
+                            if random.random() > 0.99:
+                                self.grid[i][j].setNumber(0)
+                                placed = True
+                                break
+                    if placed:
+                        break
+
     def generateSudoku_patern(self, r, c):
-        return (self.base*(r%self.base)+r//self.base+c)%self.side
+        return (self.base * (r % self.base) + r // self.base + c) % self.side
 
     def generateSudoku_shuffle(self, s):
         return sample(s, len(s))

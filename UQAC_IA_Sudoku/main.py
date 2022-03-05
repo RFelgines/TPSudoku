@@ -32,4 +32,12 @@ def readSudokuFile(environment):
 if __name__ == "__main__":
     env = env.env()
     env.generateSudoku()
+    env.putZeros(4)
+    """
+    0:Facile
+    1:Moyen
+    2:Difficile
+    3:Hardcore
+    4:Dieu
+    """
     printGrid(env.getGrid())
