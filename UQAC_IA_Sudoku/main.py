@@ -31,5 +31,5 @@ def readSudokuFile(environment):
 
 if __name__ == "__main__":
     env = env.env()
-    readSudokuFile(env)
+    env.generateSudoku()
     printGrid(env.getGrid())

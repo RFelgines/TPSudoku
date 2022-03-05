@@ -1,11 +1,13 @@
 import math
-import numpy
+from random import sample
 
 from UQAC_IA_Sudoku.environment.box import box
 
 
 class env:
     grid = None
+    base = 3
+    side = base * base
 
     def __init__(self):
         self.grid = [[box() for i in range(9)] for j in range(9)]
@@ -33,6 +35,24 @@ class env:
     def availableNumbers(self, pos):  # Checks what numbers can be placed at a certain position
         return [i for i in range(9) if
                 i not in self.getRow(pos) and i not in self.getColumn(pos) and i not in self.getSquare(pos)]
+
+    def generateSudoku(self):
+        rBase = range(self.base)
+        rows = [g*self.base + r for g in self.generateSudoku_shuffle(rBase) for r in self.generateSudoku_shuffle(rBase)]
+        cols = [g*self.base + c for g in self.generateSudoku_shuffle(rBase) for c in self.generateSudoku_shuffle(rBase)]
+        nums = self.generateSudoku_shuffle(range(1, self.base*self.base+1))
+
+        board = [[nums[self.generateSudoku_patern(r, c)] for c in cols] for r in rows]
+
+        for i in range(9):
+            for j in range(9):
+                self.grid[i][j].setNumber(board[i][j])
+
+    def generateSudoku_patern(self, r, c):
+        return (self.base*(r%self.base)+r//self.base+c)%self.side
+
+    def generateSudoku_shuffle(self, s):
+        return sample(s, len(s))
 
     """
     def LCR(self):
