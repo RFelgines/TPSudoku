@@ -6,13 +6,10 @@ class box:
             if key == 'value':
                 self.number = int(value)
         if self.number is None:
-            self.number = '0'
-
-    def empty(self):
-        self.number = None
+            self.number = 0
 
     def setNumber(self, number):
-        self.number = number
+        self.number = int(number)
 
     def getNumber(self):
-        return self.number
+        return int(self.number)
