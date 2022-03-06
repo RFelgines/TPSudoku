@@ -6,7 +6,6 @@ from UQAC_IA_Sudoku.environment.box import box
 
 
 class env:
-    grid = None
     base = 3
     side = base * base
 

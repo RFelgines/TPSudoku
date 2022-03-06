@@ -1,7 +1,7 @@
 class box:
-    number = None
 
     def __init__(self, **kwargs):
+        self.number = None
         for key, value in kwargs.items():
             if key == 'value':
                 self.number = int(value)
