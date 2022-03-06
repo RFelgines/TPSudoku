@@ -44,9 +44,10 @@ if __name__ == "__main__":
 
     if mode == "1":
         good = False
-        diff = input("Difficulty ?\n0:Easy\n1:Medium\n2:Hard\n3:Very Hard\n4:Maximum possible difficulty\n")
-        if diff == "0" or diff == "1" or diff == "2" or diff == "3" or diff == "4":
-            good = True
+        while not good:
+            diff = input("Difficulty ?\n0:Easy\n1:Medium\n2:Hard\n3:Very Hard\n")
+            if diff == "0" or diff == "1" or diff == "2" or diff == "3":
+                good = True
 
     if mode == "0":
         readSudokuFile(env)

@@ -61,8 +61,6 @@ class env:
             zeros = 40
         elif difficulty == 3:
             zeros = 50
-        elif difficulty == 4:
-            zeros = 64
         for loop in range(zeros):
             placed = False
             while not placed:
