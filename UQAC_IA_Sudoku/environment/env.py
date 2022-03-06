@@ -82,30 +82,6 @@ class env:
     def generateSudoku_shuffle(self, s):
         return sample(s, len(s))
 
-    """
-    def LCR(self):
-        ConstraintsValue = numpy.zeros(9, 9)
-        LCR = 0
-        posLCR = 0, 0
-        for i in range(9):
-            for j in range(9):
-                ConstraintsValue[i][j] = len(self.availableNumbers(i, j))
-                if ConstraintsValue[i][j] >= LCR:
-                    posLCR = ConstraintsValue[i][j]
-        return posLCR
-
-    def MRV(self):
-        ConstraintsValue = numpy.zeros(9, 9)
-        LCR = 0
-        posLCR = 0, 0
-        for i in range(9):
-            for j in range(9):
-                ConstraintsValue[i][j] = len(self.availableNumbers(i, j))
-                if ConstraintsValue[i][j] >= LCR:
-                    posLCR = ConstraintsValue[i][j]
-        return posLCR
-    """
-
     def checkPlacement(self, pos, number):  # Check if placement is correct
         return number not in self.getRow(pos) and number not in self.getColumn(pos) \
                and number not in self.getSquare(pos)
